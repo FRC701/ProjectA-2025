@@ -39,7 +39,8 @@ public class Feeder extends SubsystemBase {
     fx_cfg.NeutralMode = NeutralModeValue.Brake;
     mFeedermotor.getConfigurator().apply(fx_cfg);
   }
-  
+
+  //For the banner sensor, returns true if empty, returns false if full
   public boolean revLimitStatus() {
     return (mFeedermotor.getForwardLimit().getValue() == ForwardLimitValue.ClosedToGround);
   }
@@ -49,29 +50,38 @@ public class Feeder extends SubsystemBase {
     switch (mFeederState) {
 
       case S_empty:
-      spinFeederMotor();
-      break;
+        if(revLimitStatus()){
+          spinFeederMotor();
+        }else{
+          mFeederState = FeederState.S_full;
+        }
+        break;
      
       case S_full:
-      stopFeedermotor();
-      break;
+        stopFeedermotor();
+        break;
      
       case S_feeding:
-      StartFeeding();
-      break;
+        if(!revLimitStatus()){
+          spinFeederMotor();
+        }else{
+          mFeederState = FeederState.S_empty;
+        }
+        break;
     }
   }
+
   public void spinFeederMotor(){
     mFeedermotor.setVoltage(4.1);
   }
+
   public void stopFeedermotor(){
     mFeedermotor.setVoltage(0);
   }
-  public void StartFeeding(){
-    mFeedermotor.setVoltage(6.7);
-  }
+
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
+    runFeederState();
   }
 }
