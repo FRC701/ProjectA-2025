@@ -4,7 +4,11 @@
 
 package frc.robot.subsystems;
 
+import com.ctre.phoenix6.configs.MotorOutputConfigs;
+import com.ctre.phoenix6.configs.TalonFXConfiguration;
 import com.ctre.phoenix6.hardware.TalonFX;
+import com.ctre.phoenix6.signals.ForwardLimitValue;
+import com.ctre.phoenix6.signals.NeutralModeValue;
 import com.fasterxml.jackson.databind.introspect.TypeResolutionContext.Empty;
 
 import edu.wpi.first.wpilibj.motorcontrol.Talon;
@@ -12,6 +16,7 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class Feeder extends SubsystemBase {
   private TalonFX mFeedermotor; 
+  private TalonFXConfiguration mTalonFXConfig;
   /** Creates a new Feeder. */
  
   public static FeederState mFeederState; 
@@ -25,9 +30,22 @@ public class Feeder extends SubsystemBase {
     mFeederState = FeederState.S_empty; 
 
     mFeedermotor = new TalonFX(0);
+
+    //Applys/Creates connection to the banner sensor
+    mTalonFXConfig = new TalonFXConfiguration();
+    mTalonFXConfig.HardwareLimitSwitch.ForwardLimitEnable = false;
+    mFeedermotor.getConfigurator().apply(mTalonFXConfig);
+    var fx_cfg = new MotorOutputConfigs();
+    fx_cfg.NeutralMode = NeutralModeValue.Brake;
+    mFeedermotor.getConfigurator().apply(fx_cfg);
+  }
+  
+  public boolean revLimitStatus() {
+    return (mFeedermotor.getForwardLimit().getValue() == ForwardLimitValue.ClosedToGround);
   }
 
   public void runFeederState(){
+    
     switch (mFeederState) {
 
       case S_empty:
