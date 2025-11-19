@@ -6,6 +6,7 @@ package frc.robot.subsystems;
 
 import java.security.Key;
 
+import com.ctre.phoenix6.controls.Follower;
 import com.ctre.phoenix6.hardware.TalonFX;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -33,17 +34,17 @@ public enum LauncherState {
     //Identifing object ^
     mLauncherstate = LauncherState.S_neutral;
     //Setting state ^
+    TopMotor.setControl(new Follower(BottomMotor.getDeviceID(), true));
+    // Makes it so the rotation of the top motor is mirrored by the bottom motor
   }
-
+  
   public void neutral() {
     TopMotor.setVoltage(3);
-    BottomMotor.setVoltage(3);
     //state action for neutral
   }
 
   public void accelerate() {
     TopMotor.setVoltage(8);
-    BottomMotor.setVoltage(8);
     //state action for accelerate
   }
 
