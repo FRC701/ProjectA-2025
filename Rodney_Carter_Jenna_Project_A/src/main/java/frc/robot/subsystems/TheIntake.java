@@ -11,13 +11,45 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 
 public class TheIntake extends SubsystemBase {
-
-  private TalonFX Motor1;
-  /** Creates a new TheIntake. */
-  public TheIntake() {
-    Motor1 = new TalonFX(0);
+ 
+  public static IntakeState mIntakeState; 
+ 
+ public enum IntakeState {
+    S_full, S_empty
   }
 
+  private TalonFX IntakeMotor;
+  /** Creates a new TheIntake. */
+  
+  public TheIntake() {
+    IntakeMotor = new TalonFX(0);
+    
+    mIntakeState = IntakeState.S_empty;
+  
+
+   
+  }
+
+  public void runIntakeState() {
+    switch (mIntakeState) {
+      case S_empty:
+      spinIntakeMotor();
+      break;
+      case S_full:
+      stopIntakeMotor();
+      break;
+    }
+  }
+
+  public void spinIntakeMotor() {
+    IntakeMotor.setVoltage(5);
+  }
+
+  public void stopIntakeMotor() {
+    IntakeMotor.setVoltage(0);
+  }
+
+ 
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
