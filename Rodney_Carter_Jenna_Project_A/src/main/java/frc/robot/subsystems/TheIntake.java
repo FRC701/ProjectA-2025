@@ -7,25 +7,27 @@ package frc.robot.subsystems;
 import com.ctre.phoenix6.hardware.TalonFX;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Constants;
 
 
 
 public class TheIntake extends SubsystemBase {
- 
+  private TalonFX IntakeMotor;
   public static IntakeState mIntakeState; 
+  
  
  public enum IntakeState {
     S_full, S_empty
   }
 
-  private TalonFX IntakeMotor;
+ 
   /** Creates a new TheIntake. */
   
   public TheIntake() {
-    IntakeMotor = new TalonFX(7);
-    
+    IntakeMotor = new TalonFX(Constants.TheIntake.kIntakeMotor);
     mIntakeState = IntakeState.S_empty;
   
+
   }
 
   public void runIntakeState() {
