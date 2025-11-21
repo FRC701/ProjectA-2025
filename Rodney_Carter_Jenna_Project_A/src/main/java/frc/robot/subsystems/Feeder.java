@@ -20,18 +20,17 @@ public class Feeder extends SubsystemBase {
   /** Creates a new Feeder. */
  
   public static FeederState mFeederState; 
-
+//names the feeder
   public enum FeederState {
-
     S_empty, S_full, S_feeding       
   }
-   
+   //creates the states
   public Feeder() {
     mFeederState = FeederState.S_empty; 
-
+    //starts the feeder state as empty
     mFeedermotor = new TalonFX(0);
-
-    //Applys/Creates connection to the banner sensor
+    //creates the feedermotor
+     //Applys/Creates connection to the banner sensor
     mTalonFXConfig = new TalonFXConfiguration();
     mTalonFXConfig.HardwareLimitSwitch.ForwardLimitEnable = false;
     mFeedermotor.getConfigurator().apply(mTalonFXConfig);
@@ -44,7 +43,7 @@ public class Feeder extends SubsystemBase {
   public boolean revLimitStatus() {
     return (mFeedermotor.getForwardLimit().getValue() == ForwardLimitValue.ClosedToGround);
   }
-
+  //gets value for banner sensor. Returns true if nothing is there and returns false if something is there.
   public void runFeederState(){
     
     switch (mFeederState) {
@@ -55,12 +54,12 @@ public class Feeder extends SubsystemBase {
         }else{
           mFeederState = FeederState.S_full;
         }
-        break;
-     
+        //checks if banner sensor is true and if it is false it changes the feeder state to full
+      break;
       case S_full:
         stopFeedermotor();
         break;
-     
+      //tells motor to stop when state is full
       case S_feeding:
         if(!revLimitStatus()){
           spinFeederMotor();
@@ -68,17 +67,18 @@ public class Feeder extends SubsystemBase {
           mFeederState = FeederState.S_empty;
         }
         break;
+       //Checks if banner sensor is false and if its true it spins motor
     }
   }
 
   public void spinFeederMotor(){
     mFeedermotor.setVoltage(4.1);
   }
-
+  //calls upon the methods
   public void stopFeedermotor(){
     mFeedermotor.setVoltage(0);
   }
-
+  //calls upon the methods
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
