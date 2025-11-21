@@ -28,7 +28,7 @@ public class Feeder extends SubsystemBase {
   public Feeder() {
     mFeederState = FeederState.S_empty; 
     //starts the feeder state as empty
-    mFeedermotor = new TalonFX(0);
+    mFeedermotor = new TalonFX(Contants.FeederConstants.kFeedermotor);
     //creates the feedermotor
      //Applys/Creates connection to the banner sensor
     mTalonFXConfig = new TalonFXConfiguration();
