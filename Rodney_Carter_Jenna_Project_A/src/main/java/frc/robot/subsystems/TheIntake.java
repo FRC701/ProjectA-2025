@@ -22,12 +22,10 @@ public class TheIntake extends SubsystemBase {
   /** Creates a new TheIntake. */
   
   public TheIntake() {
-    IntakeMotor = new TalonFX(0);
+    IntakeMotor = new TalonFX(7);
     
     mIntakeState = IntakeState.S_empty;
   
-
-   
   }
 
   public void runIntakeState() {
