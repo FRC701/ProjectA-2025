@@ -10,7 +10,8 @@ import com.ctre.phoenix6.hardware.TalonFX;
 import com.ctre.phoenix6.signals.ForwardLimitValue;
 import com.ctre.phoenix6.signals.NeutralModeValue;
 import com.fasterxml.jackson.databind.introspect.TypeResolutionContext.Empty;
-
+import frc.robot.subsystems.TheIntake;
+import frc.robot.subsystems.TheIntake.IntakeState;
 import edu.wpi.first.wpilibj.motorcontrol.Talon;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
@@ -18,6 +19,9 @@ public class Feeder extends SubsystemBase {
   private TalonFX mFeedermotor; 
   private TalonFXConfiguration mTalonFXConfig;
   /** Creates a new Feeder. */
+
+  public TheIntake mTheIntake;
+  //Created an intake subsystem
  
   public static FeederState mFeederState; 
 //names the feeder
@@ -30,6 +34,8 @@ public class Feeder extends SubsystemBase {
     //starts the feeder state as empty
     mFeedermotor = new TalonFX(0);
     //creates the feedermotor
+    mTheIntake = new TheIntake();
+    //creates the intake
      //Applys/Creates connection to the banner sensor
     mTalonFXConfig = new TalonFXConfiguration();
     mTalonFXConfig.HardwareLimitSwitch.ForwardLimitEnable = false;
@@ -53,6 +59,7 @@ public class Feeder extends SubsystemBase {
           spinFeederMotor();
         }else{
           mFeederState = FeederState.S_full;
+          mTheIntake.mIntakeState = IntakeState.S_full;
         }
         //checks if banner sensor is true and if it is false it changes the feeder state to full
       break;
@@ -65,6 +72,7 @@ public class Feeder extends SubsystemBase {
           spinFeederMotor();
         }else{
           mFeederState = FeederState.S_empty;
+          mTheIntake.mIntakeState = IntakeState.S_empty;
         }
         break;
        //Checks if banner sensor is false and if its true it spins motor

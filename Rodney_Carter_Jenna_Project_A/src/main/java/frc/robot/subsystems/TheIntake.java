@@ -19,15 +19,15 @@ public class TheIntake extends SubsystemBase {
  public enum IntakeState {
     S_full, S_empty
   }
-
+  // Creates the states
  
   /** Creates a new TheIntake. */
   
   public TheIntake() {
     IntakeMotor = new TalonFX(Constants.TheIntake.kIntakeMotor);
+    // creates a motor
     mIntakeState = IntakeState.S_empty;
   
-
   }
 
   public void runIntakeState() {
