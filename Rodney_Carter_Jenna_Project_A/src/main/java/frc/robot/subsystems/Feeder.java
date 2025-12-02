@@ -13,6 +13,7 @@ import com.fasterxml.jackson.databind.introspect.TypeResolutionContext.Empty;
 
 import edu.wpi.first.wpilibj.motorcontrol.Talon;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Constants;
 
 public class Feeder extends SubsystemBase {
   private TalonFX mFeedermotor; 
@@ -28,7 +29,7 @@ public class Feeder extends SubsystemBase {
   public Feeder() {
     mFeederState = FeederState.S_empty; 
     //starts the feeder state as empty
-    mFeedermotor = new TalonFX(Contants.FeederConstants.kFeedermotor);
+    mFeedermotor = new TalonFX(Constants.FeederConstants.kFeedermotor);
     //creates the feedermotor
      //Applys/Creates connection to the banner sensor
     mTalonFXConfig = new TalonFXConfiguration();
