@@ -10,6 +10,8 @@ import frc.robot.commands.ExampleCommand;
 import frc.robot.subsystems.ExampleSubsystem;
 import frc.robot.subsystems.LauncherSubsystem;
 import frc.robot.commands.AccelerateCommand;
+import frc.robot.commands.Launch;
+import frc.robot.subsystems.Feeder;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Subsystem;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
@@ -31,10 +33,10 @@ public class RobotContainer {
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   private LauncherSubsystem m_Subsystem;
-  private AccelerateCommand m_AccelerateCommand;
+  private Feeder m_Feeder;
   public RobotContainer() {
     m_Subsystem = new LauncherSubsystem();
-    m_AccelerateCommand = new AccelerateCommand(m_Subsystem);
+    m_Feeder = new Feeder();
     // Configure the trigger bindings
     configureBindings();
   }
@@ -55,7 +57,8 @@ public class RobotContainer {
 
     // Schedule `exampleMethodCommand` when the Xbox controller's B button is pressed,
     // cancelling on release.
-    m_driverController.a().whileTrue(new AccelerateCommand(m_Subsystem));
+    m_driverController.a().onTrue(new AccelerateCommand(m_Subsystem));
+    m_driverController.b().onTrue(new Launch(m_Feeder));
   }
 
   /**

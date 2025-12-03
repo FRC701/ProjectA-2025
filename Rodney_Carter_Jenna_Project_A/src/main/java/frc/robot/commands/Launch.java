@@ -17,7 +17,7 @@ public class Launch extends InstantCommand {
 
   private Feeder m_Feeder;
 
-  public Launch(Feeder m_FeederSub, int x) {
+  public Launch(Feeder m_FeederSub) {
     // Use addRequirements() here to declare subsystem dependencies.
     m_Feeder = m_FeederSub;
   }
