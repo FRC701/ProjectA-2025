@@ -13,8 +13,11 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
+import edu.wpi.first.wpilibj.Timer;
+//imports n stuff^
 
 public class LauncherSubsystem extends SubsystemBase {
+  private Timer mTimer;
   /** Creates a new LauncherNeutralSubsystem. */
   private TalonFX TopMotor;
   private TalonFX BottomMotor;
@@ -24,13 +27,14 @@ public class LauncherSubsystem extends SubsystemBase {
   public String launcherString = "69";
 
 public enum LauncherState {
-  S_neutral, S_accelerate
+  S_neutral, S_accelerate, S_Launch
   //creating states ^
 }
   public static LauncherState mLauncherstate;
 
   public LauncherSubsystem() {
-    //creating object ^
+    //creating object ^'
+    mTimer = new Timer();
     TopMotor = new TalonFX(Constants.LauncherConstants.KTopMotor);
     BottomMotor = new TalonFX(Constants.LauncherConstants.KBottomMotor);
     //Identifing object ^
@@ -49,6 +53,18 @@ public enum LauncherState {
     TopMotor.setVoltage(8);
     //state action for accelerate
   }
+  public void Launch() {
+    TopMotor.setVoltage(8);
+    if(!mTimer.isRunning()) {
+      mTimer.start();
+    }
+    if(mTimer.hasElapsed(2)) {
+        mTimer.stop();
+        mTimer.reset();
+        mLauncherstate = LauncherState.S_neutral;
+    }
+  }
+
 
   public void RunLauncherState() {
     switch (mLauncherstate) {
@@ -57,6 +73,9 @@ public enum LauncherState {
         break;
       case S_accelerate:
         accelerate();
+        break;
+      case S_Launch:
+        Launch();
         break;
         // ^ making it so based on state it changes action 
     }

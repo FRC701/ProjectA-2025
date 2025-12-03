@@ -5,16 +5,31 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.InstantCommand;
+import edu.wpi.first.wpilibj2.command.Subsystem;
+import java.lang.reflect.Parameter;
+import javax.security.auth.login.Configuration.Parameters;
+
+import com.ctre.phoenix6.signals.LarsonBounceValue;
+
+import frc.robot.subsystems.LauncherSubsystem;
+import frc.robot.subsystems.LauncherSubsystem.LauncherState;
 
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
 public class Launch extends InstantCommand {
-  public Launch() {
+
+private LauncherSubsystem m_subsystem;
+
+  public Launch(LauncherSubsystem subsystem) {
+    m_subsystem = subsystem;
     // Use addRequirements() here to declare subsystem dependencies.
+    addRequirements(subsystem);
   }
 
   // Called when the command is initially scheduled.
   @Override
-  public void initialize() {}
+  public void initialize() {
+    m_subsystem.mLauncherstate = LauncherState.S_Launch;
+  }
 }
